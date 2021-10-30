@@ -1,0 +1,12 @@
+.vscode
+
+jwt
+
+keys
+
+uploads
+
+data
+backup
+
+*.env
