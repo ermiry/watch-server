@@ -1,3 +1,6 @@
 [submodule "push-service"]
 	path = push-service
 	url = https://github.com/ermiry/push-service
+[submodule "watch-service"]
+	path = watch-service
+	url = https://github.com/ermiry/watch-service
