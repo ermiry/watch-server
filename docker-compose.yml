@@ -1,0 +1,48 @@
+version: '3'
+services:
+  # 5000
+  push:
+    restart: always
+    image: ermiry/push-service:test
+    ports:
+      - 5000
+    environment:
+      - RUNTIME=development
+      - PORT=5000
+      - CERVER_RECEIVE_BUFFER_SIZE=4096
+      - CERVER_TH_THREADS=4
+      - CERVER_CONNECTION_QUEUE=4
+      - MONGO_APP_NAME=push
+      - MONGO_DB=worker
+      - MONGO_URI=mongodb://push:${PUSH_PSWD}@mongo:27017/worker
+      - CONNECT_TO_REDIS=true
+      - REDIS_HOSTNAME=redis
+  
+  # 5001
+  watch:
+    restart: always
+    image: ermiry/watch-service:test
+    ports:
+      - 5001
+    environment:
+      - RUNTIME=development
+      - PORT=5001
+      - CERVER_RECEIVE_BUFFER_SIZE=4096
+      - CERVER_TH_THREADS=4
+      - CERVER_CONNECTION_QUEUE=4
+      - MONGO_APP_NAME=watch
+      - MONGO_DB=worker
+      - MONGO_URI=mongodb://watch:${WATCH_PSWD}@mongo:27017/worker
+      - CONNECT_TO_REDIS=true
+      - REDIS_HOSTNAME=redis
+
+  nginx:
+    restart: always
+    image: ermiry/watch-nginx:latest
+    ports:
+      - '80:80'
+
+networks:
+  default:
+    external:
+      name: worker
